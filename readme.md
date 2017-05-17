@@ -1,6 +1,7 @@
-# React + Flux + Auth0
+# React Ping Pong Database
 
-This repo goes along with the [tutorial at Scotch.io](https://scotch.io/tutorials/build-a-react-flux-app-with-user-authentication) and shows how to create a React + Flux app that calls an API and authenticates users with Auth0.
+This repo is based on the [tutorial at Scotch.io](https://scotch.io/tutorials/build-a-react-flux-app-with-user-authentication)
+I played around and made some tweaks to the code to pull from a database.
 
 ## Installation and Running the App
 
@@ -46,6 +47,8 @@ If you have found a bug or if you have a feature request, please report them at 
 ## Author
 
 [Auth0](auth0.com)
+
+john-ivan
 
 ## License
 
