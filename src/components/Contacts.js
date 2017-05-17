@@ -10,7 +10,7 @@ import ContactListItem from './ContactListItem';
 function getContactListItem(contact) {
   return (
     <ContactListItem
-      key={contact.id}
+      key={contact._id}
       contact={contact}
     />
   );

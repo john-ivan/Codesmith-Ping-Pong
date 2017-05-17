@@ -2,6 +2,59 @@ const express = require('express');
 const app = express();
 const jwt = require('express-jwt');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+
+const playerController = require('./PlayerController');
+const Player = require('./PlayerModel');
+
+mongoose.connect('mongodb://cs-ping-pong-roster');
+mongoose.connection.once('open', (err) => {
+  if (err) throw err;
+  console.log('Connected to Database');
+});
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+const playerRouter = express.Router(); // Will I use this?
+
+app.get('/', (req, res) => {
+  res.set({
+    'Content-Type': 'text/html; charset=UTF-8' });
+  res.status(200);
+  res.end(fs.readFileSync(__dirname + '/index.html'));
+});
+
+app.post('/', playerController.createPlayer);
+
+app.post('/:name', playerController.updatePlayer)
+
+// Delete a player from the database
+// localhost://3001/player/"name"
+// playerRouter.delete('/:name', playerController.deletePlayer);
+
+app.use('/player', playerRouter);
 
 app.use(cors());
 
@@ -9,52 +62,24 @@ app.use(cors());
 // This middleware will check incoming requests for a valid
 // JWT on any routes that it is applied to.
 const authCheck = jwt({
-  secret: 'YOUR_AUTH0_SECRET',
-  audience: 'YOUR_AUTH0_CLIENT_ID'
+  secret: 'oCq4PIZ6dZUyGVHWR-AaD6Sr0MzGwXXLcDtsMJsOU2U1vWJ_fLdSCSueaMFbQ_1Q',
+  audience: 'mvkhO3zHQdyTSncKbpqGcYoJljpGxGgN'
 });
 
-var contacts = [
-  {
-    id: 1,
-    name: 'Chris Sevilleja',
-    email: 'chris@scotch.io',
-    image: '//gravatar.com/avatar/8a8bf3a2c952984defbd6bb48304b38e?s=200'
-  },
-  {
-    id: 2,
-    name: 'Nick Cerminara',
-    email: 'nick@scotch.io',
-    image: '//gravatar.com/avatar/5d0008252214234c609144ff3adf62cf?s=200'
-  },
-  {
-    id: 3,
-    name: 'Ado Kukic',
-    email: 'ado@scotch.io',
-    image: '//gravatar.com/avatar/99c4080f412ccf46b9b564db7f482907?s=200'
-  },
-  {
-    id: 4,
-    name: 'Holly Lloyd',
-    email: 'holly@scotch.io',
-    image: '//gravatar.com/avatar/5e074956ee8ba1fea26e30d28c190495?s=200'
-  },
-  {
-    id: 5,
-    name: 'Ryan Chenkie',
-    email: 'ryan@scotch.io',
-    image: '//gravatar.com/avatar/7f4ec37467f2f7db6fffc7b4d2cc8dc2?s=200'
-  }
-];
+let contacts;
+Player.find({}, (err, data) => {
+  contacts = data;
+});
 
 app.get('/api/contacts', (req, res) => {
-  const allContacts = contacts.map(contact => { 
-    return { id: contact.id, name: contact.name}
+  const allContacts = contacts.map(contact => {
+    return { _id: contact._id, name: contact.name}
   });
   res.json(allContacts);
 });
 
-app.get('/api/contacts/:id', authCheck, (req, res) => {
-  res.json(contacts.filter(contact => contact.id === parseInt(req.params.id)));
+app.get('/api/contacts/:_id', authCheck, (req, res) => {
+  res.json(contacts.filter(contact => contact._id === parseInt(req.params._id)));
 });
 
 app.listen(3001);

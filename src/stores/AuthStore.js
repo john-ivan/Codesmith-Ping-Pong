@@ -28,18 +28,18 @@ class AuthStoreClass extends EventEmitter {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   }
-  
+
   isAuthenticated() {
     if (localStorage.getItem('id_token')) {
       return true;
     }
     return false;
   }
-  
+
   getUser() {
     return localStorage.getItem('profile');
   }
-  
+
   getJwt() {
     return localStorage.getItem('id_token');
   }
@@ -53,12 +53,12 @@ const AuthStore = new AuthStoreClass();
 AuthStore.dispatchToken = AppDispatcher.register(action => {
 
   switch(action.actionType) {
-      
+
     case AuthConstants.LOGIN_USER:
       setUser(action.profile, action.token);
       AuthStore.emitChange();
       break
-      
+
     case AuthConstants.LOGOUT_USER:
       removeUser();
       AuthStore.emitChange();
@@ -67,7 +67,6 @@ AuthStore.dispatchToken = AppDispatcher.register(action => {
     default:
   }
 
-  
 });
 
 export default AuthStore;

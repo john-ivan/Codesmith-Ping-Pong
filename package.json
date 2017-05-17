@@ -45,6 +45,7 @@
     "karma-webpack": "^1.7.0",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
+    "mongoose": "^4.9.9",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs-prebuilt": "^2.0.0",

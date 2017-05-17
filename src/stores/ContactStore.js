@@ -16,7 +16,7 @@ function setContact(contact) {
 }
 
 class ContactStoreClass extends EventEmitter {
-  
+
   emitChange() {
     this.emit(CHANGE_EVENT);
   }
@@ -32,11 +32,11 @@ class ContactStoreClass extends EventEmitter {
   getContacts() {
     return _contacts;
   }
-  
+
   getContact() {
     return _contact;
   }
-  
+
 }
 
 const ContactStore = new ContactStoreClass();
@@ -53,17 +53,17 @@ ContactStore.dispatchToken = AppDispatcher.register(action => {
       // knows that a change has been made
       ContactStore.emitChange();
       break
-      
+
     case ContactConstants.RECIEVE_CONTACT:
       setContact(action.contact);
       ContactStore.emitChange();
       break
-      
+
     case ContactConstants.RECIEVE_CONTACT_ERROR:
       alert(action.message);
       ContactStore.emitChange();
       break
-      
+
     case ContactConstants.RECIEVE_CONTACTS_ERROR:
       alert(action.message);
       ContactStore.emitChange();
@@ -71,7 +71,7 @@ ContactStore.dispatchToken = AppDispatcher.register(action => {
 
     default:
   }
-  
+
 });
 
 export default ContactStore;

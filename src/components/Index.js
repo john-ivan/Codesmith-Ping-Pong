@@ -12,10 +12,11 @@ class IndexComponent extends Component {
   render() {
     return (
       <div>
+        {/* Changes text based on authentication */}
         { !this.state.authenticated ? (
-          <h2>Log in to view contact details</h2>
+          <h2>Log in to view player details</h2>
         ) : (
-          <h2>Click on a contact to view their profile</h2>
+          <h2>Click on a player to view their profile</h2>
         )}
       </div>
     );

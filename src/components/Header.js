@@ -43,10 +43,11 @@ class HeaderComponent extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">React Contacts</a>
+            <a href="#">Codesmith Ping Pong</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
+          {/* Dynamically changes the Login/Logout text based on authentication */}
           { !this.state.authenticated ? (
             <NavItem onClick={this.login}>Login</NavItem>
           ) : (
